@@ -60,8 +60,11 @@ for pntItr in range(len(pntsDf)):
             pntId, currDt, currDt+dateBinIntrvl-dt.timedelta(seconds=1), logger=logger, isRandom=isRandom)
         pntQuals = [v['status'] for v in pntSampls]
         numSampls = len(pntQuals)
-        goodSamplsPerc = len([k for k in pntQuals if k in [
-                             'GOOD_LIMVIOL', 'GOOD']])*100/numSampls
+        if numSampls == 0:
+            goodSamplsPerc = 0
+        else:
+            goodSamplsPerc = len([k for k in pntQuals if k in [
+                'GOOD_LIMVIOL', 'GOOD']])*100/numSampls
         # goodSamplsPerc = round(goodSamplsPerc, 2)
         binQualSumm = pd.DataFrame(columns=['date', 'good_perc'], data=[
                                    [currDt, goodSamplsPerc]])
